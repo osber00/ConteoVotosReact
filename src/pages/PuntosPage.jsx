@@ -23,7 +23,7 @@ const PuntosPage = () => {
 
     const resultados = await response.json();
     //console.log(resultados.data);
-    await setPuntos(resultados.data);
+    setPuntos(resultados.data);
   };
 
   useEffect(() => {

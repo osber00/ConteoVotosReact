@@ -7,14 +7,14 @@ const Menu = () => {
             <li className="nav-item">
               <Link to={'/'} className='nav-link fw-medium'>Inicio</Link>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to={'/equipo'} className='nav-link fw-medium'>Equipo</Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link to={'/puntos'} className='nav-link fw-medium'>Puntos</Link>
             </li>
             <li className="nav-item">
-              <Link to={'/items'} className='nav-link fw-medium'>Items</Link>
+              <Link to={'/resultados'} className='nav-link fw-medium'>Resultados</Link>
             </li>
             <li className="nav-item">
               <Link to={'/formatos'} className='nav-link fw-medium'>Formatos</Link>

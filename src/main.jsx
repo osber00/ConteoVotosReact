@@ -5,7 +5,7 @@ import './index.css'
 import InicioPage from './pages/InicioPage'
 import UsuariosPage from './pages/UsuariosPage'
 import PuntosPage from './pages/PuntosPage'
-import ItemsPage from './pages/ItemsPage'
+import ItemsPage from './pages/ResultadosPage'
 import FormatosPage from './pages/FormatosPage'
 import ProcesarPage from './pages/ProcesarPage'
 
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     element: <PuntosPage/>
   },
   {
-    path: '/items',
+    path: '/resultados',
     element: <ItemsPage/>
   },
   {
