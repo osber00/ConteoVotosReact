@@ -3,7 +3,9 @@ import WrapPagina from '../components/WrapPagina'
 
 const InicioPage = () => {
   return (
-    <WrapPagina></WrapPagina>
+    <WrapPagina>
+      <h2>Inicio</h2>
+    </WrapPagina>
   )
 }
 

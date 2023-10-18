@@ -7,6 +7,7 @@ import UsuariosPage from './pages/UsuariosPage'
 import PuntosPage from './pages/PuntosPage'
 import ItemsPage from './pages/ItemsPage'
 import FormatosPage from './pages/FormatosPage'
+import ProcesarPage from './pages/ProcesarPage'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/formatos',
     element: <FormatosPage/>
+  },
+  {
+    path: '/procesar',
+    element: <ProcesarPage/>
   },
 ])
 

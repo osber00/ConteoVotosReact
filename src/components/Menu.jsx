@@ -20,13 +20,7 @@ const Menu = () => {
               <Link to={'/formatos'} className='nav-link fw-medium'>Formatos</Link>
             </li>
             <li className="nav-item mega-dropdown active">
-              <a
-                href=";"
-                className="nav-link fw-medium"
-                aria-expanded="false"
-                data-trigger="hover">
-                <span data-i18n="Pages">Procesar</span>
-              </a>
+              <Link to={'/procesar'} className='nav-link fw-medium'>Procesar</Link>
             </li>
           </ul>
   )
