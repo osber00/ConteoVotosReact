@@ -8,6 +8,7 @@ import PuntosPage from './pages/PuntosPage'
 import ItemsPage from './pages/ResultadosPage'
 import FormatosPage from './pages/FormatosPage'
 import ProcesarPage from './pages/ProcesarPage'
+import FormatoDataPage from './pages/FormatoDataPage'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/formatos',
     element: <FormatosPage/>
+  },
+  {
+    path: '/formatos/:id',
+    element: <FormatoDataPage/>
   },
   {
     path: '/procesar',
