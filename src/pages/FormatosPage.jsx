@@ -42,6 +42,11 @@ const FormatosPage = () => {
     fetchFormatos();
   }, []);
 
+
+  if (Object.keys(puntos).length == 0 && Object.keys(formatos).length == 0) {
+    return
+  }
+
   return (
     <WrapPagina>
       <section className="">

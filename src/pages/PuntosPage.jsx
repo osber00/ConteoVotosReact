@@ -8,8 +8,8 @@ import NuevoPunto from "../components/NuevoPunto";
 
 const PuntosPage = () => {
   const [puntos, setPuntos] = useState([]);
-  const [puntoEdit, setPuntoEdit] = useState({})
-  const [mensaje, setMensaje] = useState('')
+  const [puntoEdit, setPuntoEdit] = useState({});
+  const [mensaje, setMensaje] = useState("");
 
   const fetchPuntos = async () => {
     const response = await fetch(`${URL_SERVER}/lugares`, {
@@ -30,87 +30,93 @@ const PuntosPage = () => {
     fetchPuntos();
   }, []);
 
-  const editarPuntoModal = (data)=>{
-    setMensaje('')
+  const editarPuntoModal = (data) => {
+    setMensaje("");
     if (data != null) {
-      setPuntoEdit(data)
-    }else{
-      setPuntoEdit({})
+      setPuntoEdit(data);
+    } else {
+      setPuntoEdit({});
     }
-  }
+  };
 
-  const fetchUpdatePunto = async(data)=>{
-    const response = await fetch(`${URL_SERVER}/lugares/${data.id}`,{
-      method:'POST',
-      headers:{
-        'Content-Type': 'application/json'
+  const fetchUpdatePunto = async (data) => {
+    const response = await fetch(`${URL_SERVER}/lugares/${data.id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    })
-    .catch((error)=>{
+      body: JSON.stringify(data),
+    }).catch((error) => {
       setMensaje("Problemas con el servidor de datos");
-    })
+    });
 
-    const resultado = await response.json()
+    const resultado = await response.json();
     //console.log(resultado);
-    if (resultado.estado == 'updated') {
-      setPuntoEdit({})
-      fetchPuntos()
-    }else{
-      setMensaje('Algo salió mal')
+    if (resultado.estado == "updated") {
+      setPuntoEdit({});
+      fetchPuntos();
+    } else {
+      setMensaje("Algo salió mal");
     }
-  }
+  };
 
-  const updatePunto = (data)=>{
-    fetchUpdatePunto(data)
-  }
+  const updatePunto = (data) => {
+    fetchUpdatePunto(data);
+  };
 
-  const fetchStorePunto = async (data)=>{
-    const response = await fetch(`${URL_SERVER}/lugares`,{
-      method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
+  const fetchStorePunto = async (data) => {
+    const response = await fetch(`${URL_SERVER}/lugares`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
-    })
-    .catch((error)=>{
+      body: JSON.stringify(data),
+    }).catch((error) => {
       setMensaje("Problemas con el servidor de datos");
-    })
+    });
 
-    const resultado = await response.json()
-    if (resultado.estado == 'created') {
-      fetchPuntos()
-    }else{
-      setMensaje('Algo salió mal')
+    const resultado = await response.json();
+    if (resultado.estado == "created") {
+      fetchPuntos();
+    } else {
+      setMensaje("Algo salió mal");
     }
-  }
+  };
 
-  const storePunto = (data)=>{
-    fetchStorePunto(data)
+  const storePunto = (data) => {
+    fetchStorePunto(data);
+  };
+
+  if (Object.keys(puntos).length == 0) {
+    return;
   }
 
   return (
     <WrapPagina>
-      <div className='row contenedor rounded shadown'>
-        <div className='col-xl-8 mb-3 mb-xl-0'>
+      <div className="row contenedor rounded shadown">
+        <div className="col-xl-8 mb-3 mb-xl-0">
           <h3>
-            <span className='mdi mdi-map-marker-outline mdi-24px'></span>{" "}
-            Puntos {puntos.length}
+            <span className="mdi mdi-map-marker-outline mdi-24px"></span> Puntos{" "}
+            {puntos.length}
           </h3>
-          {mensaje && <Feedback tipo='danger'>{mensaje}</Feedback>}
-          <div className='row mb-3'>
-            <div className='col-md mb-md-0 mb-2'>
+          {mensaje && <Feedback tipo="danger">{mensaje}</Feedback>}
+          <div className="row mb-3">
+            <div className="col-md mb-md-0 mb-2">
               {puntos.map((punto) => (
-                <Punto punto={punto} editarPuntoModal={editarPuntoModal} key={punto.id} />
+                <Punto
+                  punto={punto}
+                  editarPuntoModal={editarPuntoModal}
+                  key={punto.id}
+                />
               ))}
             </div>
           </div>
         </div>
 
-        <NuevoPunto storePunto={storePunto}/>
+        <NuevoPunto storePunto={storePunto} />
       </div>
 
-      <ModalPunto puntoEdit={puntoEdit} updatePunto={updatePunto}/>
+      <ModalPunto puntoEdit={puntoEdit} updatePunto={updatePunto} />
     </WrapPagina>
   );
 };
