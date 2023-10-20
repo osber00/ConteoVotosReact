@@ -9,3 +9,9 @@
     background-color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.78);
 }
+
+ul.lista-puntos li{
+    border-bottom: 1px #cecece solid;
+    margin-top: 1rem;
+    padding-left: 1rem;
+}

@@ -24,7 +24,7 @@ const PuntoFormato = ({ punto, formatos }) => {
             </span>
             <h5 className='mb-0 ms-1'>{punto.nombre}</h5>
           </div>
-          <ul className='list-unstyled my-4'>
+          <ul className='list-unstyled my-4 lista-puntos'>
             {asignados.map((formato) => (
               <li className='mb-2' key={formato.id}>
                 <a

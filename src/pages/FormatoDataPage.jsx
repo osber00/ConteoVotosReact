@@ -12,59 +12,40 @@ const FormatoDataPage = () => {
   const [mesa, setMesa] = useState("");
   const [sufragantes, setSufragantes] = useState("");
   const [candidatos, setCandidatos] = useState([]);
-  const [votosCandidatos, setVotosCandidatos] = useState([]);
   const params = useParams();
 
-  const fetchFormato =  () => {
-    fetch(`${URL_SERVER}/formatos/${params.id}`, {
+  const fetchFormato = async () => {
+    const response = await fetch(`${URL_SERVER}/formatos/${params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    })
-    .then((response)=> response.json())
-    .then((data)=>{
-      const resultado = data.data
-        if (resultado != null) {
-          setFormato(resultado)
-          setPunto(resultado.lugar.nombre)
-          setMesa(resultado.mesa)
-          setSufragantes(resultado.sufragantes)
-          setCandidatos(resultado.candidatos)
-          setVotosCandidatos(
-            resultado.candidatos.map(()=>({
-              id: candidato.id,
-              votos: candidato.pivot.votos
-            }))
-          )
-          console.log('Datos cargados');
-          console.log(votosCandidatos);
-        }
-    })
-    .catch((err) => {
+    }).catch((err) => {
       setMensaje("Ocurrió un error");
     });
 
-    //const resultado = await response.json();
-    //console.log(resultado);
-
-    /* if (resultado.data !== null) {
-      const temp = resultado.data;
-      //console.log(temp);
-      setFormato(temp);
-      setPunto(temp.lugar.nombre);
-      setMesa(temp.mesa);
-      setSufragantes(temp.sufragantes);
-      setCandidatos(temp.candidatos);
-      setVotosCandidatos(
-        candidatos.map((candidato) => ({
+    const resultados = await response.json();
+    const resultado = resultados.data;
+    const items = resultado.candidatos;
+    if (resultado != null && Object.keys(items).length >= 1) {
+      setFormato(resultado);
+      setPunto(resultado.lugar.nombre);
+      setMesa(resultado.mesa);
+      setSufragantes(resultado.sufragantes);
+      const arrayCandidatos = items.map((candidato) => {
+        let tempCandidato = {
           id: candidato.id,
+          nombre: candidato.nombre,
           votos: candidato.pivot.votos,
-        }))
-      );
-    } */
+        };
+        return tempCandidato;
+      });
+      setCandidatos(arrayCandidatos);
+      console.log("Datos cargados");
+    } else {
+      setMensaje('No hay datos relacionados')
+    }
   };
-  
 
   useEffect(() => {
     fetchFormato();
@@ -97,7 +78,7 @@ const FormatoDataPage = () => {
   };
 
   const handleVotosChange = (id, nuevosVotos) => {
-    setVotosCandidatos((prevVotos) =>
+    setCandidatos((prevVotos) =>
       prevVotos.map((voto) =>
         voto.id === id ? { ...voto, votos: nuevosVotos } : voto
       )
@@ -106,12 +87,16 @@ const FormatoDataPage = () => {
 
   const handleFormVotos = async (e) => {
     e.preventDefault();
-    console.log(e);
 
     try {
       const datosParaEnviar = {};
-      votosCandidatos.forEach((candidato) => {
-        datosParaEnviar[candidato.id] = candidato.votos.toString();
+      candidatos.forEach((candidato) => {
+        if (candidato.votos != '' && isNaN(candidato.votos) == false) {
+          datosParaEnviar[candidato.id] = candidato.votos.toString();
+        } else {
+          candidato.votos = 0;
+          datosParaEnviar[candidato.id] = candidato.votos.toString();
+        }
       });
 
       const response = await fetch(`${URL_SERVER}/votos/${params.id}/formato`, {
@@ -124,25 +109,23 @@ const FormatoDataPage = () => {
 
       if (response.ok) {
         setMensaje("Datos enviados exitosamente a la API");
-        // Puedes manejar cualquier respuesta exitosa aquí
       } else {
         setMensaje("Error al enviar datos a la API");
-        // Puedes manejar errores de la API aquí
       }
     } catch (error) {
       console.error("Error en la solicitud a la API:", error);
     }
   };
 
-  const inputsCandidatos = votosCandidatos.map((candidato, index) => (
+  const inputsCandidatos = candidatos.map((candidato, index) => (
     <div className="row g-3 mb-3" key={candidato.id}>
       <div className="form-floating form-floating-outline">
         <input
           value={candidato.votos}
           onChange={(e) =>
-            handleVotosChange(candidato.id, parseInt(e.target.value, 10))
+            handleVotosChange(candidato.id, e.target.value)
           }
-          type="text"
+          type="number"
           autoCapitalize="true"
           autoComplete="false"
           className="form-control"
@@ -153,12 +136,14 @@ const FormatoDataPage = () => {
     </div>
   ));
 
-  if (Object.keys(formato).length == 0 || Object.keys(votosCandidatos).length == 0) {
+  if (Object.keys(formato).length == 0 || Object.keys(candidatos).length == 0) {
+    console.log(formato);
     return;
   }
 
   return (
     <WrapPagina>
+      {mensaje && <Feedback tipo="primary">{mensaje}</Feedback>}
       <form onSubmit={handleForm}>
         <h3>
           {punto} - Mesa: {mesa}
@@ -181,8 +166,6 @@ const FormatoDataPage = () => {
               <label>Sufragantes</label>
             </div>
           </div>
-
-          {mensaje && <Feedback tipo="primary">{mensaje}</Feedback>}
           <div className="d-grid">
             <button type="submit" className="btn btn-primary btn-next">
               <span className="mdi mdi-content-save"></span> Guardar
@@ -196,8 +179,6 @@ const FormatoDataPage = () => {
         <h3>Datos</h3>
         <div className="border rounded p-3 mb-3">
           {inputsCandidatos}
-
-          {mensaje && <Feedback tipo="primary">{mensaje}</Feedback>}
           <div className="d-grid">
             <button type="submit" className="btn btn-primary btn-next">
               <span className="mdi mdi-content-save"></span> Guardar
