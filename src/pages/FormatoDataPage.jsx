@@ -15,37 +15,46 @@ const FormatoDataPage = () => {
   const [votosCandidatos, setVotosCandidatos] = useState([]);
   const params = useParams();
 
-  const fetchFormato = async () => {
-    const response = await fetch(`${URL_SERVER}/formatos/${params.id}`, {
+  const fetchFormato =  () => {
+    fetch(`${URL_SERVER}/formatos/${params.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    }).catch((err) => {
+    })
+    .then((response)=> response.json())
+    .then((data)=>{
+      const resultado = data.data
+        if (resultado != null) {
+          setFormato(resultado)
+          setPunto(resultado.lugar.nombre)
+          setMesa(resultado.mesa)
+          setSufragantes(resultado.sufragantes)
+          setCandidatos(resultado.candidatos)
+          setVotosCandidatos(
+            resultado.candidatos.map(()=>({
+              id: candidato.id,
+              votos: candidato.pivot.votos
+            }))
+          )
+          console.log('Datos cargados');
+          console.log(votosCandidatos);
+        }
+    })
+    .catch((err) => {
       setMensaje("Ocurrió un error");
     });
 
-    const resultado = await response.json();
+    //const resultado = await response.json();
     //console.log(resultado);
 
-    const cargarVotosCandidatos = (candidatos)=>{
-      setVotosCandidatos(
-        candidatos.map((candidato) => ({
-          id: candidato.id,
-          votos: candidato.pivot.votos,
-        }))
-      );
-    }
-
-    if (resultado.data !== null) {
+    /* if (resultado.data !== null) {
       const temp = resultado.data;
       //console.log(temp);
       setFormato(temp);
       setPunto(temp.lugar.nombre);
       setMesa(temp.mesa);
       setSufragantes(temp.sufragantes);
-      //setItems(temp.candidatos);
-      //items.map(item => console.log(item.pivot.votos))
       setCandidatos(temp.candidatos);
       setVotosCandidatos(
         candidatos.map((candidato) => ({
@@ -53,7 +62,7 @@ const FormatoDataPage = () => {
           votos: candidato.pivot.votos,
         }))
       );
-    }
+    } */
   };
   
 

@@ -1,1 +1,1 @@
-export const URL_SERVER = 'http://centrodatos.test/api'
+export const URL_SERVER = 'http://conteo.test/api'
