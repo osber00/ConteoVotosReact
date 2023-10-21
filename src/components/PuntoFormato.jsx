@@ -27,14 +27,16 @@ const PuntoFormato = ({ punto, formatos }) => {
           <ul className='list-unstyled my-4 lista-puntos'>
             {asignados.map((formato) => (
               <li className='mb-2' key={formato.id}>
-                <a
-                  href={`/formatos/${formato.id}`}
+                <div
                   className='text-heading d-flex justify-content-between align-items-center'>
                   <h5 className='text-truncate me-1'>
                     {" "}
                     <i className='mdi mdi-check-circle'></i> Mesa {formato.mesa}
                   </h5>
-                </a>
+                  <a href={`/formatos/${formato.id}`}><i className="mdi mdi-check-circle"></i> Registrar votos</a>
+                  <a href={`/formatos/${formato.id}`} className="text-warning"><i className="mdi mdi-cog"></i> Modificar mesa</a>
+                  <a href={`/formatos/${formato.id}`} className="text-danger"><i className="mdi mdi-delete"></i> Eliminar</a>
+                </div>
               </li>
             ))}
           </ul>

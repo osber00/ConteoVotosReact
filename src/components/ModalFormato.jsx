@@ -1,12 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Feedback from "./Feedback";
 import { URL_SERVER } from "../services/dataserver";
 
-const ModalFormato = ({ modalFormato, fetchNuevoFormato }) => {
+const ModalFormato = ({ modalFormato, setModalFormato, fetchNuevoFormato }) => {
   const [puntos, setPuntos] = useState([]);
   const [punto, setPunto] = useState("");
   const [mesa, setMesa] = useState("");
   const [mensaje, setMensaje] = useState("");
+
+  const referenciaModal = useRef(null)
+
+  useEffect(() => {
+    const handleModalHidden = ()=>{
+      setModalFormato(false)
+    }
+
+    referenciaModal.current.addEventListener('hidden.bs.modal', handleModalHidden)
+  
+    /* return () => {
+      referenciaModal.current.removeEventListener('hidden.bs.modal', handleModalHidden)
+    } */
+  }, [])
+  
 
   const fetchLugares = async () => {
     const response = await fetch(`${URL_SERVER}/lugares`, {
@@ -30,6 +45,8 @@ const ModalFormato = ({ modalFormato, fetchNuevoFormato }) => {
         "mesa": mesa
     }
     fetchNuevoFormato(data)
+    setPunto("")
+    setMesa("")
   };
 
   useEffect(() => {
@@ -45,7 +62,7 @@ const ModalFormato = ({ modalFormato, fetchNuevoFormato }) => {
   }, []);
 
   return (
-    <div className="modal fade" id="modalFormato" aria-hidden="true">
+    <div className="modal fade" id="modalFormato" aria-hidden="true" ref={referenciaModal}>
       <div className="modal-dialog modal-lg modal-simple modal-add-new-address">
         <div className="modal-content p-3 p-md-5">
           <div className="modal-body p-md-0">

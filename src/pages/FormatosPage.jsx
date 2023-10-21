@@ -3,11 +3,11 @@ import WrapPagina from "../components/WrapPagina";
 import { URL_SERVER } from "../services/dataserver";
 import PuntoFormato from "../components/PuntoFormato";
 import ModalFormato from "../components/ModalFormato";
+import Feedback from "../components/Feedback";
 
 const FormatosPage = () => {
   const [puntos, setPuntos] = useState([])
   const [formatos, setFormatos] = useState([]);
-  const [asignados, setAsignados] = useState([])
   const [mensaje, setMensaje] = useState("");
   const [modalFormato, setModalFormato] = useState(false)
 
@@ -52,9 +52,16 @@ const FormatosPage = () => {
     })
 
     const resultado = await response.json()
-
+    console.log(resultado);
     if (resultado.estado == 'created') {
-      fetchFormatos()      
+      fetchFormatos()
+      setModalFormato(false)
+      setMensaje('Mesa registrada con éxito')
+    }
+
+    if (resultado.estado == 'duplicate') {
+      setModalFormato(false)
+      setMensaje('No se registró la mesa, ya existe en ese lugar')
     }
   }
 
@@ -64,6 +71,7 @@ const FormatosPage = () => {
   }, []);
 
   const mostrarModal = ()=>{
+    setMensaje("")
     setModalFormato(true)
   }
 
@@ -81,6 +89,7 @@ const FormatosPage = () => {
           <button onClick={()=>mostrarModal()} type='button' className='btn btn-primary text-center' >
             <span className='mdi mdi-content-save'></span> Nuevo registro
           </button>
+          {mensaje && <Feedback tipo='danger'>{mensaje}</Feedback>}
           </div>
           <div className="row">
             <div className="col-lg-10 mx-auto">
@@ -96,6 +105,7 @@ const FormatosPage = () => {
 
       <ModalFormato 
         modalFormato={modalFormato}
+        setModalFormato={setModalFormato}
         fetchNuevoFormato={fetchNuevoFormato}
         />
     </WrapPagina>
