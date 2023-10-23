@@ -35,7 +35,9 @@ const ItemsPage = () => {
       <section className="">
         <div className="container">
           <h2 className="text-center mb-2">Resultados</h2>
-
+          <div className="text-center text-danger display-6 mb-4">
+            <a href="/resultadoslugares">Resultados por lugares</a>
+          </div>
           <div className="pricing-plans row mx-0 gap-4">
             {Items.map((item) => (
               <Item item={item} key={item.id} />

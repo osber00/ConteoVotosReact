@@ -9,6 +9,8 @@ import ItemsPage from './pages/ResultadosPage'
 import FormatosPage from './pages/FormatosPage'
 import ProcesarPage from './pages/ProcesarPage'
 import FormatoDataPage from './pages/FormatoDataPage'
+import Resultadosxlugar from './pages/resultadosxlugar'
+import ResultadosLugares from './pages/ResultadosLugares'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: '/resultados',
     element: <ItemsPage/>
+  },
+  {
+    path: '/resultados-lugares/:id',
+    element: <Resultadosxlugar/>
+  },
+  {
+    path: '/resultadoslugares',
+    element: <ResultadosLugares/>
   },
   {
     path: '/formatos',

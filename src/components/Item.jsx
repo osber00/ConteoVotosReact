@@ -21,7 +21,7 @@ const Item = ({ item }) => {
             <p className="text-secondary">{item.porcentaje.toFixed(1)}%</p>
           </div>
 
-          <a href="" className="btn btn-primary d-grid w-100">Consultar</a>
+          <a href={`/resultados-lugares/${item.id}`} className="btn btn-primary d-grid w-100">Consultar</a>
           
         </div>
       </div>
