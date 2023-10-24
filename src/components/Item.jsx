@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Item = ({ item }) => {
   return (
@@ -21,7 +22,8 @@ const Item = ({ item }) => {
             <p className="text-secondary">{item.porcentaje.toFixed(1)}%</p>
           </div>
 
-          <a href={`/resultados-lugares/${item.id}`} className="btn btn-primary d-grid w-100">Consultar</a>
+          {/* <a href={`/resultados-lugares/${item.id}`} className="btn btn-primary d-grid w-100">Consultar</a> */}
+          <Link to={`/resultados-lugares/${item.id}`} className="btn btn-primary d-grid w-100">Detalles</Link>
           
         </div>
       </div>

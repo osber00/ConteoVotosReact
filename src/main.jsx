@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {createBrowserRouter, RouterProvider} from 'react-router-dom'
+import {RouterProvider, createHashRouter} from 'react-router-dom'
 import './index.css'
 import InicioPage from './pages/InicioPage'
 import UsuariosPage from './pages/UsuariosPage'
@@ -12,7 +12,9 @@ import FormatoDataPage from './pages/FormatoDataPage'
 import Resultadosxlugar from './pages/resultadosxlugar'
 import ResultadosLugares from './pages/ResultadosLugares'
 
-const router = createBrowserRouter([
+
+
+const router = createHashRouter([
   {
     path: '/',
     element: <InicioPage/>

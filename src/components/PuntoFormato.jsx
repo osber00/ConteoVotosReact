@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const PuntoFormato = ({
   punto,
@@ -37,9 +38,12 @@ const PuntoFormato = ({
                     {" "}
                     <i className="mdi mdi-check-circle"></i> Mesa {formato.mesa}
                   </h5>
-                  <a href={`/formatos/${formato.id}`}>
+                  {/* <a href={`/formatos/${formato.id}`}>
                     <i className="mdi mdi-check-circle"></i> Registrar votos
-                  </a>
+                  </a> */}
+                  <Link to={`/formatos/${formato.id}`}>
+                  <i className="mdi mdi-check-circle"></i> Registrar votos
+                  </Link>
                   <a
                     onClick={() => mostrarModalEdicion(formato)}
                     className="text-warning cursor-pointer"

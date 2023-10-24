@@ -41,9 +41,9 @@ const FormatoDataPage = () => {
         return tempCandidato;
       });
       setCandidatos(arrayCandidatos);
-      console.log("Datos cargados");
+      //console.log("Datos cargados");
     } else {
-      setMensaje('No hay datos relacionados')
+      setMensaje("No hay datos relacionados");
     }
   };
 
@@ -87,33 +87,48 @@ const FormatoDataPage = () => {
 
   const handleFormVotos = async (e) => {
     e.preventDefault();
+    //console.log(e.target.length);
+    let suma = 0;
 
-    try {
-      const datosParaEnviar = {};
-      candidatos.forEach((candidato) => {
-        if (candidato.votos != '' && isNaN(candidato.votos) == false) {
-          datosParaEnviar[candidato.id] = candidato.votos.toString();
+    for (let i = 0; i <= 8; i++) {
+      suma += parseInt(e.target[i].value);
+    }
+
+    console.log(suma);
+    console.log(sufragantes);
+    if (sufragantes != suma) {
+      setMensaje("La suma de votos no es igual al número de sufragantes");
+    } else {
+      try {
+        const datosParaEnviar = {};
+        candidatos.forEach((candidato) => {
+          if (candidato.votos != "" && isNaN(candidato.votos) == false) {
+            datosParaEnviar[candidato.id] = candidato.votos.toString();
+          } else {
+            candidato.votos = 0;
+            datosParaEnviar[candidato.id] = candidato.votos.toString();
+          }
+        });
+
+        const response = await fetch(
+          `${URL_SERVER}/votos/${params.id}/formato`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ votos: datosParaEnviar }),
+          }
+        );
+
+        if (response.ok) {
+          setMensaje("Datos enviados exitosamente a la API");
         } else {
-          candidato.votos = 0;
-          datosParaEnviar[candidato.id] = candidato.votos.toString();
+          setMensaje("Error al enviar datos a la API");
         }
-      });
-
-      const response = await fetch(`${URL_SERVER}/votos/${params.id}/formato`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ votos: datosParaEnviar }),
-      });
-
-      if (response.ok) {
-        setMensaje("Datos enviados exitosamente a la API");
-      } else {
-        setMensaje("Error al enviar datos a la API");
+      } catch (error) {
+        console.error("Error en la solicitud a la API:", error);
       }
-    } catch (error) {
-      console.error("Error en la solicitud a la API:", error);
     }
   };
 
@@ -122,9 +137,7 @@ const FormatoDataPage = () => {
       <div className="form-floating form-floating-outline">
         <input
           value={candidato.votos}
-          onChange={(e) =>
-            handleVotosChange(candidato.id, e.target.value)
-          }
+          onChange={(e) => handleVotosChange(candidato.id, e.target.value)}
           type="number"
           autoCapitalize="true"
           autoComplete="false"
@@ -137,7 +150,7 @@ const FormatoDataPage = () => {
   ));
 
   if (Object.keys(formato).length == 0 || Object.keys(candidatos).length == 0) {
-    console.log(formato);
+    //console.log(formato);
     return;
   }
 
@@ -179,6 +192,7 @@ const FormatoDataPage = () => {
         <h3>Datos</h3>
         <div className="border rounded p-3 mb-3">
           {inputsCandidatos}
+          {mensaje && <Feedback tipo="primary">{mensaje}</Feedback>}
           <div className="d-grid">
             <button type="submit" className="btn btn-primary btn-next">
               <span className="mdi mdi-content-save"></span> Guardar

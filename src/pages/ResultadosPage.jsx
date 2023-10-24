@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import WrapPagina from "../components/WrapPagina";
 import { URL_SERVER } from "../services/dataserver";
 import Item from "../components/Item";
+import { Link } from "react-router-dom";
 
 const ItemsPage = () => {
   const [Items, setItems] = useState([]);
@@ -36,7 +37,8 @@ const ItemsPage = () => {
         <div className="container">
           <h2 className="text-center mb-2">Resultados</h2>
           <div className="text-center text-danger display-6 mb-4">
-            <a href="/resultadoslugares">Resultados por lugares</a>
+            {/* <a href="/resultadoslugares">Resultados por lugares</a> */}
+            <Link to={'/resultadoslugares'}>Resultados por lugares</Link>
           </div>
           <div className="pricing-plans row mx-0 gap-4">
             {Items.map((item) => (

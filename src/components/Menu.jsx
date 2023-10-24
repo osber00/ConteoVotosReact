@@ -18,20 +18,20 @@ const Menu = () => {
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to={"/resultados"} className='nav-link fw-medium'>
+        <Link to={"/resultados"} className='nav-link fw-medium active'>
           Resultados
         </Link>
       </li>
       <li className='nav-item'>
-        <Link to={"/formatos"} className='nav-link fw-medium'>
+        <Link to={"/formatos"} className='nav-link fw-medium active'>
           Formatos
         </Link>
       </li>
-      <li className='nav-item mega-dropdown active'>
+      {/* <li className='nav-item mega-dropdown'>
         <Link to={"/procesar"} className='nav-link fw-medium'>
           Procesar
         </Link>
-      </li>
+      </li> */}
     </ul>
   );
 };

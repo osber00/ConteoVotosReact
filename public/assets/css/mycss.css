@@ -15,3 +15,8 @@ ul.lista-puntos li{
     margin-top: 1rem;
     padding-left: 1rem;
 }
+
+.ganador{
+    border-bottom: 1px solid #000;
+    padding-bottom: 60px;
+}
