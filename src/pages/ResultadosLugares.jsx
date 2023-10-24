@@ -17,6 +17,8 @@ const ResultadosLugares = () => {
 
           const resultado = await response.json()
 
+          console.log(resultado.data);
+
           setResultado(resultado.data)
     }
 
